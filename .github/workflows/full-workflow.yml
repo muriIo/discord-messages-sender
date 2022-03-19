@@ -21,14 +21,6 @@ jobs:
       matrix:
         node-version: [16.x]
 
-    variables:
-    - name: HEROKU_API_KEY
-      value: ${{ secrets.HEROKU_API_KEY }}
-    - name: HEROKU_EMAIL
-      value: ${{ secrets.HEROKU_EMAIL }}
-    - name: HEROKU_APP_NAME
-      value: ${{ secrets.HEROKU_APP_NAME }}
-
     steps:
     - uses: actions/checkout@v2
 
@@ -43,9 +35,9 @@ jobs:
             password $HEROKU_API_KEY
         EOF      
       env:
-        HEROKU_API_KEY: ${{ variables.HEROKU_API_KEY }}
-        HEROKU_EMAIL: ${{ variables.HEROKU_EMAIL }}
-        HEROKU_APP_NAME: ${{ variables.HEROKU_APP_NAME }}
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+        HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
@@ -63,6 +55,8 @@ jobs:
 
     - name: Add Heroku Remote
       run: heroku git:remote -a $HEROKU_APP_NAME
+      env:
+        HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
 
     - name: Deploy application
       if: ${{ github.ref == 'refs/heads/main' }}
@@ -71,3 +65,7 @@ jobs:
         heroku_api_key: ${{ variables.HEROKU_API_KEY }}
         heroku_app_name: ${{ variables.HEROKU_APP_NAME }}
         heroku_email: ${{ variables.HEROKU_EMAIL }}
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+        HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
