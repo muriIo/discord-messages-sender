@@ -48,7 +48,7 @@ jobs:
       run: npm ci
 
     - name: Run all tests
-      run: npm run test
+      run: npm run test --passWithNoTests
 
     - name: Set url Git
       run: git remote set-url origin https://github.com/muriIo/discord-messages-sender.git
