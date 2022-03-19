@@ -59,3 +59,4 @@ jobs:
         heroku_api_key: $HEROKU_API_KEY
         heroku_app_name: $HEROKU_APP_NAME
         heroku_email: $HEROKU_EMAIL
+        heroku_username: $HEROKU_EMAIL
