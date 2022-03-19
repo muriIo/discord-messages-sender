@@ -3,14 +3,6 @@
 
 name: Discord Message Sender
 
-variables:
-  - name: HEROKU_API_KEY
-    value: ${{ secrets.HEROKU_API_KEY }}
-  - name: HEROKU_EMAIL
-    value: ${{ secrets.HEROKU_EMAIL }}
-  - name: HEROKU_APP_NAME
-    value: ${{ secrets.HEROKU_APP_NAME }}
-
 on:
   push:
     branches:
@@ -28,6 +20,14 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
+
+    variables:
+    - name: HEROKU_API_KEY
+      value: ${{ secrets.HEROKU_API_KEY }}
+    - name: HEROKU_EMAIL
+      value: ${{ secrets.HEROKU_EMAIL }}
+    - name: HEROKU_APP_NAME
+      value: ${{ secrets.HEROKU_APP_NAME }}
 
     steps:
     - uses: actions/checkout@v2
