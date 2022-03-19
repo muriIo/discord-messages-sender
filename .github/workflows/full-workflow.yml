@@ -30,44 +30,44 @@ jobs:
         node-version: [16.x]
 
     steps:
+    - uses: actions/checkout@v2
+    
+    - name: Heroku login credentials
+      run: |
+        cat > ~/.netrc <<EOF
+          machine api.heroku.com
+            login $HEROKU_EMAIL
+            password $HEROKU_API_KEY
+          machine git.heroku.com
+            login $HEROKU_EMAIL
+            password $HEROKU_API_KEY
+        EOF      
+      - env:
+        HEROKU_API_KEY: ${{ variables.HEROKU_API_KEY }}
+        HEROKU_EMAIL: ${{ variables.HEROKU_EMAIL }}
+        HEROKU_APP_NAME: ${{ variables.HEROKU_APP_NAME }}
 
-      - uses: actions/checkout@v2
-      - name: Heroku login credentials
-        run: |
-          cat > ~/.netrc <<EOF
-            machine api.heroku.com
-              login $HEROKU_EMAIL
-              password $HEROKU_API_KEY
-            machine git.heroku.com
-              login $HEROKU_EMAIL
-              password $HEROKU_API_KEY
-          EOF      
-        - env:
-          HEROKU_API_KEY: ${{ variables.HEROKU_API_KEY }}
-          HEROKU_EMAIL: ${{ variables.HEROKU_EMAIL }}
-          HEROKU_APP_NAME: ${{ variables.HEROKU_APP_NAME }}
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-  
-      - name: Install dependencies
-        run: npm ci
-  
-      - name: Run all tests
-        run: npm run test
-      
-      - name: Set url Git
-        run: git remote set-url origin https://github.com/muriIo/discord-messages-sender.git
-  
-      - name: Add Heroku Remote
-        run: heroku git:remote -a $HEROKU_APP_NAME
-  
-      - name: Deploy application
-        if: ${{ github.ref == 'refs/heads/main' }}
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{ variables.HEROKU_API_KEY }}
-          heroku_app_name: ${{ variables.HEROKU_APP_NAME }}
-          heroku_email: ${{ variables.HEROKU_EMAIL }}
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run all tests
+      run: npm run test
+
+    - name: Set url Git
+      run: git remote set-url origin https://github.com/muriIo/discord-messages-sender.git
+
+    - name: Add Heroku Remote
+      run: heroku git:remote -a $HEROKU_APP_NAME
+
+    - name: Deploy application
+      if: ${{ github.ref == 'refs/heads/main' }}
+      uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{ variables.HEROKU_API_KEY }}
+        heroku_app_name: ${{ variables.HEROKU_APP_NAME }}
+        heroku_email: ${{ variables.HEROKU_EMAIL }}
