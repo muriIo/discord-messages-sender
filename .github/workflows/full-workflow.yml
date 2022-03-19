@@ -31,7 +31,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Heroku login credentials
       run: |
         cat > ~/.netrc <<EOF
@@ -42,7 +42,7 @@ jobs:
             login $HEROKU_EMAIL
             password $HEROKU_API_KEY
         EOF      
-      - env:
+      env:
         HEROKU_API_KEY: ${{ variables.HEROKU_API_KEY }}
         HEROKU_EMAIL: ${{ variables.HEROKU_EMAIL }}
         HEROKU_APP_NAME: ${{ variables.HEROKU_APP_NAME }}
