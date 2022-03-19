@@ -50,7 +50,7 @@ jobs:
       run: npm run test
     
     - name: Add Heroku Remote
-      run: heroku git:remote -a discord-messages-sender
+      run: heroku git:remote -a $HEROKU_APP_NAME
 
     - name: Deploy application
       if: ${{ github.ref == 'refs/heads/main' }}
@@ -60,3 +60,4 @@ jobs:
         heroku_app_name: $HEROKU_APP_NAME
         heroku_email: $HEROKU_EMAIL
         heroku_username: $HEROKU_EMAIL
+        branch: MAIN
