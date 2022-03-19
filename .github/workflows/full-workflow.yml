@@ -62,9 +62,9 @@ jobs:
       if: ${{ github.ref == 'refs/heads/main' }}
       uses: akhileshns/heroku-deploy@v3.12.12
       with:
-        heroku_api_key: ${{ variables.HEROKU_API_KEY }}
-        heroku_app_name: ${{ variables.HEROKU_APP_NAME }}
-        heroku_email: ${{ variables.HEROKU_EMAIL }}
+        heroku_api_key: $HEROKU_API_KEY
+        heroku_app_name: $HEROKU_APP_NAME
+        heroku_email: $HEROKU_EMAIL
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
