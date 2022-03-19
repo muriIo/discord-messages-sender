@@ -23,6 +23,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Heroku login credentials
+      run: |
+        cat > ~/.netrc <<EOF
+          machine api.heroku.com
+            login $HEROKU_EMAIL
+            password $HEROKU_API_KEY
+          machine git.heroku.com
+            login $HEROKU_EMAIL
+            password $HEROKU_API_KEY
+        EOF
+      env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
@@ -39,6 +53,6 @@ jobs:
       if: ${{ github.ref == 'refs/heads/main' }}
       uses: akhileshns/heroku-deploy@v3.12.12
       with:
-        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-        heroku_app_name: "discord-messages-sender"
-        heroku_email: "murilomecr@gmail.com"
+        heroku_api_key: ${{ $HEROKU_API_KEY }}
+        heroku_app_name: ${{ $HEROKU_APP_NAME }}
+        heroku_email: ${{ $HEROKU_EMAIL }}
