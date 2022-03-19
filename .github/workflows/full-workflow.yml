@@ -49,6 +49,9 @@ jobs:
     - name: Run all tests
       run: npm run test
     
+    - name: Set url Git
+      run: git remote set-url origin https://github.com/muriIo/discord-messages-sender.git
+
     - name: Add Heroku Remote
       run: heroku git:remote -a discord-messages-sender
 
@@ -59,5 +62,4 @@ jobs:
         heroku_api_key: $HEROKU_API_KEY
         heroku_app_name: $HEROKU_APP_NAME
         heroku_email: $HEROKU_EMAIL
-        heroku_username: $HEROKU_EMAIL
         branch: MAIN
